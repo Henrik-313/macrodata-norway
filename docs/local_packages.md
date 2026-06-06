@@ -1,0 +1,1 @@
+uv add --editable ~/Coding/python-libs/henrik-db
