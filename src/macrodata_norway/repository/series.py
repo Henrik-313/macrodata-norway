@@ -52,3 +52,33 @@ def load_series(source_name: str, source_series_id: str) -> pd.DataFrame:
         engine,
         params={"source_name": source_name, "source_series_id": source_series_id},
     )
+
+
+def list_series() -> pd.DataFrame:
+    """
+    List all series currently registered in the database
+    """
+
+    engine = get_engine()
+
+    query = text(
+        """
+        SELECT 
+            ds.name AS source,
+            s.source_series_id,
+            s.name AS series_name,
+            s.category, 
+            s.geography,
+            s.unit,
+            s.frequency,
+            s.maturity,
+            s.active
+        FROM series s
+        JOIN data_source ds 
+            ON ds.id = s.source_id
+        ORDER BY ds.name, s.source_series_id;
+
+    """
+    )
+
+    return pd.read_sql(query, engine)
