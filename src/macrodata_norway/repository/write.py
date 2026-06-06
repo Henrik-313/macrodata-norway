@@ -166,6 +166,8 @@ def upsert_observations(
             "observation_date": date(...),
             "value": Decimal(...) or None,
             "value_text": str or None,
+            "realtime_start": date(...) or None,
+            "realtime_end": date(...) or None,
         }
 
     Returns
@@ -186,6 +188,8 @@ def upsert_observations(
             observation_date,
             value,
             value_text,
+            realtime_start,
+            realtime_end,
             retrieved_at,
             updated_at
         )
@@ -194,6 +198,8 @@ def upsert_observations(
             :observation_date,
             :value,
             :value_text,
+            :realtime_start,
+            :realtime_end,
             now(),
             now()
         )
@@ -201,10 +207,14 @@ def upsert_observations(
         DO UPDATE SET
             value = EXCLUDED.value,
             value_text = EXCLUDED.value_text,
+            realtime_start = EXCLUDED.realtime_start,
+            realtime_end = EXCLUDED.realtime_end,
             retrieved_at = now(),
             updated_at = now()
         WHERE observation.value IS DISTINCT FROM EXCLUDED.value
-            OR observation.value_text IS DISTINCT FROM EXCLUDED.value_text;
+            OR observation.value_text IS DISTINCT FROM EXCLUDED.value_text
+            OR observation.realtime_start IS DISTINCT FROM EXCLUDED.realtime_start
+            OR observation.realtime_end IS DISTINCT FROM EXCLUDED.realtime_end;
         """
     )
     # IS DISTINCT FROM ensures that rows are only updated if the actual value changed
@@ -215,6 +225,8 @@ def upsert_observations(
             "observation_date": obs["observation_date"],
             "value": obs.get("value"),
             "value_text": obs.get("value_text"),
+            "realtime_start": obs.get("realtime_start"),
+            "realtime_end": obs.get("realtime_end"),
         }
         for obs in observations
     ]
