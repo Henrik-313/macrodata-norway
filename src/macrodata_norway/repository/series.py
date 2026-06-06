@@ -1,3 +1,5 @@
+from datetime import date
+
 import pandas as pd
 from sqlalchemy import text
 
@@ -82,3 +84,35 @@ def list_series() -> pd.DataFrame:
     )
 
     return pd.read_sql(query, engine)
+
+
+def get_latest_observation_date(source_name: str, source_series_id: str) -> date | None:
+    """
+    Return the latest observation date stored locally for one series.
+
+    If the series has no observations yet, return None.
+    """
+
+    engine = get_engine()
+
+    query = text(
+        """
+        SELECT
+            MAX(o.observation_date) AS latest_observation_date
+        FROM observation o
+        JOIN series s
+            ON s.id = o.series_id
+        JOIN data_source ds
+            ON ds.id = s.source_id
+        WHERE ds.name = :source_name
+            AND s.source_series_id = :source_series_id;
+        """
+    )
+
+    with engine.connect() as conn:
+        result = conn.execute(
+            query, {"source_name": source_name, "source_series_id": source_series_id}
+        )
+        latest_date = result.scalar_one()
+
+        return latest_date

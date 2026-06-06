@@ -1,4 +1,4 @@
-FRED_SERIES = [
+FRED_SERIES = [  # TODO: Move this registry into a dataclass for better validation
     {
         "source_series_id": "DGS3MO",
         "name": "3-Month Treasury Constant Maturity Rate",
@@ -8,6 +8,7 @@ FRED_SERIES = [
         "unit": "percent",
         "frequency": "daily",
         "maturity": "3M",
+        "safety_buffer_days": 14,
     },
     {
         "source_series_id": "DGS2",
@@ -18,6 +19,7 @@ FRED_SERIES = [
         "unit": "percent",
         "frequency": "daily",
         "maturity": "2Y",
+        "safety_buffer_days": 14,
     },
     {
         "source_series_id": "DGS5",
@@ -28,6 +30,7 @@ FRED_SERIES = [
         "unit": "percent",
         "frequency": "daily",
         "maturity": "5Y",
+        "safety_buffer_days": 14,
     },
     {
         "source_series_id": "DGS10",
@@ -38,6 +41,7 @@ FRED_SERIES = [
         "unit": "percent",
         "frequency": "daily",
         "maturity": "10Y",
+        "safety_buffer_days": 14,
     },
     {
         "source_series_id": "DGS30",
@@ -48,6 +52,7 @@ FRED_SERIES = [
         "unit": "percent",
         "frequency": "daily",
         "maturity": "30Y",
+        "safety_buffer_days": 14,
     },
     {
         "source_series_id": "FEDFUNDS",
@@ -58,6 +63,7 @@ FRED_SERIES = [
         "unit": "percent",
         "frequency": "monthly",
         "maturity": None,
+        "safety_buffer_days": 180,
     },
     {
         "source_series_id": "T10Y2Y",
@@ -68,5 +74,6 @@ FRED_SERIES = [
         "unit": "percentage points",
         "frequency": "daily",
         "maturity": None,
+        "safety_buffer_days": 14,
     },
 ]
