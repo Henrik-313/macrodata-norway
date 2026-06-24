@@ -14,6 +14,7 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "requests>=2.34.2",
     "sqlalchemy>=2.0.49",
+    "typer>=0.26.7",
 ]
 
 [tool.uv.sources]
@@ -33,3 +34,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/macrodata_norway"]
+
+[project.scripts]
+macrodata = "macrodata_norway.cli:app"
